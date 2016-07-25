@@ -38,16 +38,16 @@ public class UOrderManager {
     public void deleteOrder(UOrder order){
         orderDao.delete(order);
     }
-	public int getOrderCount(Date startDate, Date endDate,int channelID,long orderID){
-		return orderDao.getOrderCount(startDate, endDate, channelID, orderID);
+	public int getOrderCount(Date startDate, Date endDate,int channelID,long orderID, int state){
+		return orderDao.getOrderCount(startDate, endDate, channelID, orderID, state);
 	}
 	
-	public List<UOrder> search(Date startDate, Date endDate,int channelID,long orderID,int page,int rows) {
-		return this.orderDao.search(startDate, endDate, channelID, orderID, page, rows);
+	public List<UOrder> search(Date startDate, Date endDate,int channelID,long orderID,int state,int page,int rows) {
+		return this.orderDao.search(startDate, endDate, channelID, orderID, state, page, rows);
 	}
 	
-	public List<UOrder> searchAll(Date startDate, Date endDate,int channelID,long orderID) {
-		return this.orderDao.searchAll(startDate, endDate, channelID, orderID);
+	public List<UOrder> searchAll(Date startDate, Date endDate,int channelID,long orderID, int state) {
+		return this.orderDao.searchAll(startDate, endDate, channelID, orderID, state);
 	}
 	
     public UOrder generateOrder(UUser user, int money, String productName, String productDesc, String roleID, String roleName, String serverID, String serverName,String extension){

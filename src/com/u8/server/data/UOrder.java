@@ -1,6 +1,7 @@
 package com.u8.server.data;
 
 import com.u8.server.cache.CacheManager;
+import com.u8.server.constants.PayState;
 import com.u8.server.utils.TimeFormater;
 import net.sf.json.JSONObject;
 
@@ -67,7 +68,26 @@ public class UOrder {
         json.put("roleName", roleName);
         json.put("serverID", serverID);
         json.put("serverName", serverName);
-        json.put("state", state==1?"未支付":"已支付");
+        String stateStr = "未支付";
+        switch (state) {
+		case PayState.STATE_PAYING:
+			stateStr = "未支付";
+			break;
+		case PayState.STATE_SUC:
+			stateStr = "已支付";
+			break;
+		case PayState.STATE_COMPLETE:
+			stateStr = "已完成";
+			break;
+		case PayState.STATE_FAILED:
+			stateStr = "支付失败";
+			break;
+
+		default:
+			stateStr = "未支付";
+			break;
+		}
+        json.put("state", stateStr);
         json.put("channelOrderID", channelOrderID);
         json.put("extension", extension);
         json.put("createdTime", createdTime == null ? "" : TimeFormater.format_default(createdTime));

@@ -60,6 +60,7 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
     		  String endDate=request.getParameter("endDate");
     		  String orderID=request.getParameter("orderID");
     		  String channelID=request.getParameter("channelID");
+    		  String state=request.getParameter("state");
     		  
     		  Date start=null;
     		  Date end=null;
@@ -73,6 +74,8 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
     		  int channelIntID=-1;
     		  long orderLongID=-1;
     		  
+    		  int stateInt = -1;
+    		  
     		  try{
     			  channelIntID=Integer.parseInt(channelID);
     		  }catch(Exception e){
@@ -83,10 +86,16 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
     		  }catch(Exception e){
     			  orderLongID=-1;
     		  }
-    		 // String c=request.getParameter("channelID");
-    		  int count=orderManager.getOrderCount(start, end,channelIntID,orderLongID);
     		  
-    		  List<UOrder> uList = orderManager.search(start, end,channelIntID,orderLongID,this.page,this.rows);
+    		  try {
+				stateInt = Integer.parseInt(state);
+			} catch (Exception e) {
+				stateInt = -1;
+			}
+    		 // String c=request.getParameter("channelID");
+    		  int count=orderManager.getOrderCount(start, end,channelIntID,orderLongID, stateInt);
+    		  
+    		  List<UOrder> uList = orderManager.search(start, end,channelIntID,orderLongID,stateInt, this.page,this.rows);
 
     		  JSONObject json = new JSONObject();
               json.put("total", count);
@@ -96,7 +105,7 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
             		  users.add(order.toJSON());
             	  }
               }
-              List<UOrder> uListAll = orderManager.searchAll(start, end,channelIntID,orderLongID);
+              List<UOrder> uListAll = orderManager.searchAll(start, end,channelIntID,orderLongID, stateInt);
               if(null!=uListAll){
             	  int payed = 0;
             	  int unpayed = 0;
