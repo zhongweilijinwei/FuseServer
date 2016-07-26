@@ -29,12 +29,12 @@ public class UUserManager {
     @Autowired
     private UUserDao userDao;
 
-    public int getUserCount(Date startDate, Date endDate,int channelID,String channelUserName){
-    	return userDao.getUserCount(startDate, endDate,channelID,channelUserName);
+    public int getUserCount(Date startDate, Date endDate,int channelID,String channelUserName, int appID){
+    	return userDao.getUserCount(startDate, endDate,channelID,channelUserName,appID);
     }
-    public List<UUser> search(Date startDate, Date endDate,int channelID,String channelUserName,int page,int rows){
+    public List<UUser> search(Date startDate, Date endDate,int channelID,String channelUserName,int appID, int page,int rows){
     	
-    	return userDao.search(startDate, endDate,channelID,channelUserName,page,rows);
+    	return userDao.search(startDate, endDate,channelID,channelUserName,appID, page,rows);
     }
     //根据渠道用户ID获取用户信息
     public UUser getUserByCpID(int appID, int channelID, String cpUserID){

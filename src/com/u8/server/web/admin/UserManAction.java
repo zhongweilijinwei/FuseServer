@@ -70,6 +70,7 @@ public class UserManAction extends UActionSupport implements ModelDriven<UUser>{
     		  String endDate=request.getParameter("endDate");
     		  String channelUserName=request.getParameter("channelUserName");
     		  String channelID=request.getParameter("channelID");
+    		  String appId = request.getParameter("appId");
     		  
     		  Date start=null;
     		  Date end=null;
@@ -81,16 +82,23 @@ public class UserManAction extends UActionSupport implements ModelDriven<UUser>{
     		  }
     		  
     		  int channelIntID=-1;
+    		  int appIdInt=-1;
     		  
     		  try{
     			  channelIntID=Integer.parseInt(channelID);
     		  }catch(Exception e){
     			  channelIntID=-1;
     		  }
-    		 // String c=request.getParameter("channelID");
-    		  int count=userManager.getUserCount(start, end,channelIntID,channelUserName);
     		  
-    		  List<UUser> uList = userManager.search(start, end,channelIntID,channelUserName,this.page,this.rows);
+    		  try{
+    			  appIdInt=Integer.parseInt(appId);
+    		  }catch(Exception e){
+    			  appIdInt=-1;
+    		  }
+    		 // String c=request.getParameter("channelID");
+    		  int count=userManager.getUserCount(start, end,channelIntID,channelUserName, appIdInt);
+    		  
+    		  List<UUser> uList = userManager.search(start, end,channelIntID,channelUserName, appIdInt, this.page,this.rows);
     		  JSONObject json = new JSONObject();
               json.put("total", count);
               JSONArray users = new JSONArray();

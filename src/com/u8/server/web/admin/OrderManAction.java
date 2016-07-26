@@ -61,6 +61,7 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
     		  String orderID=request.getParameter("orderID");
     		  String channelID=request.getParameter("channelID");
     		  String state=request.getParameter("state");
+    		  String appId = request.getParameter("appId");
     		  
     		  Date start=null;
     		  Date end=null;
@@ -75,6 +76,8 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
     		  long orderLongID=-1;
     		  
     		  int stateInt = -1;
+    		  
+    		  int appIdInt = -1;
     		  
     		  try{
     			  channelIntID=Integer.parseInt(channelID);
@@ -92,10 +95,16 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
 			} catch (Exception e) {
 				stateInt = -1;
 			}
-    		 // String c=request.getParameter("channelID");
-    		  int count=orderManager.getOrderCount(start, end,channelIntID,orderLongID, stateInt);
     		  
-    		  List<UOrder> uList = orderManager.search(start, end,channelIntID,orderLongID,stateInt, this.page,this.rows);
+    		  try {
+    			  appIdInt = Integer.parseInt(appId);
+    		  } catch (Exception e) {
+    			  appIdInt = -1;
+    		  }
+    		 // String c=request.getParameter("channelID");
+    		  int count=orderManager.getOrderCount(start, end,channelIntID,orderLongID, stateInt, appIdInt);
+    		  
+    		  List<UOrder> uList = orderManager.search(start, end,channelIntID,orderLongID,stateInt, appIdInt, this.page,this.rows);
 
     		  JSONObject json = new JSONObject();
               json.put("total", count);
@@ -105,7 +114,7 @@ public class OrderManAction extends UActionSupport implements ModelDriven<UOrder
             		  users.add(order.toJSON());
             	  }
               }
-              List<UOrder> uListAll = orderManager.searchAll(start, end,channelIntID,orderLongID, stateInt);
+              List<UOrder> uListAll = orderManager.searchAll(start, end,channelIntID,orderLongID, stateInt, appIdInt);
               if(null!=uListAll){
             	  int payed = 0;
             	  int unpayed = 0;

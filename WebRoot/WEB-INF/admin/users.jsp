@@ -50,6 +50,8 @@
     <input type="text" id="endDate" name="endDate"  class="easyui-datetimebox" style="width:135px"/>
    &nbsp;选择渠道:
      <input id="channels" type="text" class="easyui-combobox" name="channels" style="width:180px" maxlength="255" required="true"/>
+   &nbsp;选择游戏:
+     <input id="games" type="text" class="easyui-combobox" name="games" style="width:90px" maxlength="255" required="true"/>
   &nbsp;渠道用户名:
    <input id="channelUserName" type="text" class="easyui-textbox" name="channelUserName" style="width:180px" maxlength="255" required="true"/>
      <a class="easyui-linkbutton" plain="true"
@@ -146,10 +148,11 @@ var startTime = $('#startDate').datetimebox('getValue');
 var endTime = $('#endDate').datetimebox('getValue');
 var channelID=$('#channels').textbox('getValue');
 var uName= $('#channelUserName').textbox('getValue');
+var appId = $('#games').textbox('getValue');
 
  // alert(channelID);
 
-  searchURL=searchURL+"?channelUserName="+uName+"&channelID="+channelID+"&startDate="+startTime+"&endDate="+endTime;
+  searchURL=searchURL+ "?appId=" + appId + "&channelUserName="+uName+"&channelID="+channelID+"&startDate="+startTime+"&endDate="+endTime;
   
 
   $("#users").datagrid({
@@ -184,9 +187,6 @@ var uName= $('#channelUserName').textbox('getValue');
    
    
    function fillChannel(){
-
-
-  
     $("#channels").combobox({
     url:'<%=basePath%>/admin/channels/getAllChannelsSimple',
     valueField:'channelID',
@@ -196,11 +196,22 @@ var uName= $('#channelUserName').textbox('getValue');
    	 }
   	});
 
+}
 
+function fillGames(){
 
+    $("#games").combobox({
+    url:'<%=basePath%>/admin/games/getAllGamesSimpleForList',
+    valueField:'appID',
+    textField:'name',
+   	onSelect:function(rec){
+      	$('#appID').val(rec.appID);
+   	 }
+  	});
 }
    
    fillChannel();
+   fillGames();
   //默认皮肤  
  $('#startDate').datetimebox({  
      showSeconds:false

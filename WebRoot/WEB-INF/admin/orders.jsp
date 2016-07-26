@@ -47,13 +47,15 @@
      &nbsp;至  &nbsp;
     <input type="text" id="endDate" name="endDate"  class="easyui-datetimebox" style="width:135px"/>
    &nbsp;选择渠道:
-     <input id="channels" type="text" class="easyui-combobox" name="channels" style="width:180px" maxlength="255" required="true"/>
+     <input id="channels" type="text" class="easyui-combobox" name="channels" style="width:90px" maxlength="255" required="true"/>
    &nbsp;选择状态:
      <input id="states" type="text" class="easyui-combobox" name="states" style="width:90px" maxlength="255" required="true" data-options="
      		valueField:'state',
     		textField:'text',
     		data:[{state:-1,text:'全部'},{state:1,text:'未支付'},{state:2,text:'已支付'},{state:3,text:'已完成',selected:true},{state:4, text:'支付失败'}]"
     		/>
+   &nbsp;选择游戏:
+     <input id="games" type="text" class="easyui-combobox" name="games" style="width:90px" maxlength="255" required="true"/>
   &nbsp;订单号:
    <input id="orderID" type="text" class="easyui-textbox" name="orderID" style="width:180px" maxlength="255" required="true"/>
      <a class="easyui-linkbutton" plain="true"
@@ -160,8 +162,7 @@
   });
   
   
-     function fillChannel(){
-
+function fillChannel(){
 
     $("#channels").combobox({
     url:'<%=basePath%>/admin/channels/getAllChannelsSimple',
@@ -171,15 +172,20 @@
       	$('#channelID').val(rec.channelID);
    	 }
   	});
-
-
-
-
-
-
-
 }
-	
+
+function fillGames(){
+
+    $("#games").combobox({
+    url:'<%=basePath%>/admin/games/getAllGamesSimpleForList',
+    valueField:'appID',
+    textField:'name',
+   	onSelect:function(rec){
+      	$('#appID').val(rec.appID);
+   	 }
+  	});
+}
+
 function fillStates(){
 		 $("#states").combobox({
     		onSelect:function(rec){
@@ -195,8 +201,8 @@ function fillStates(){
 		var channelID=$('#channels').textbox('getValue');
 		var orderID= $('#orderID').textbox('getValue');
 		var state= $('#states').textbox('getValue');
-		
-		  searchURL=searchURL+"?state=" + state + "&orderID="+orderID+"&channelID="+channelID+"&startDate="+startTime+"&endDate="+endTime;
+		var appId = $('#games').textbox('getValue');
+		searchURL=searchURL+"?appId=" + appId + "&state=" + state + "&orderID="+orderID+"&channelID="+channelID+"&startDate="+startTime+"&endDate="+endTime;
   
  $("#orders").datagrid({
     height:430,
@@ -235,6 +241,7 @@ function fillStates(){
    
 fillChannel();
 fillStates();
+fillGames();
   //默认皮肤  
  $('#startDate').datetimebox({  
      showSeconds:false

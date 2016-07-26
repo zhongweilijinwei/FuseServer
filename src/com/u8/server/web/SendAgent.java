@@ -15,6 +15,8 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.entity.ByteArrayEntity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +54,13 @@ public class SendAgent {
         JSONObject response = new JSONObject();
         response.put("state", StateCode.CODE_SUCCESS);
         response.put("data", data);
-        response.put("sign", RSAUtils.sign(data.toString(),game.getAppRSAPriKey(), "UTF-8"));
+        String sign = RSAUtils.sign(data.toString(),game.getAppRSAPriKey(), "UTF-8");
+        try {
+			response.put("sign", URLEncoder.encode(sign, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "text/html");
 

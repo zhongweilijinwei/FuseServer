@@ -99,6 +99,34 @@ public class GameAction extends UActionSupport implements ModelDriven<UGame>{
         }
     }
 
+    @Action("getAllGamesSimpleForList")
+    public void getAllGamesSimpleForList(){
+        try{
+
+            List<UGame> games = this.gameManager.queryAllGames();
+
+            JSONArray gameArray = new JSONArray();
+            JSONObject allItem = new JSONObject();
+			 allItem.put("appID","-1");
+			 allItem.put("name", "全部");
+			 gameArray.add(allItem);
+		   if(null != games){
+			   
+			   for(UGame game : games){
+				   JSONObject item = new JSONObject();
+				   item.put("appID", game.getAppID());
+				   item.put("name", game.getName());
+				   gameArray.add(item);
+			   }
+		   }
+
+            renderJson(gameArray.toString());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     //添加或者编辑
     @Action("saveGame")
     public void saveChannelMasters(){

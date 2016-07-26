@@ -21,9 +21,9 @@ import org.springframework.stereotype.Repository;
 @Repository("userDao")
 public class UUserDao extends UHibernateTemplate<UUser, Integer> {
 
-	public int getUserCount(Date startDate, Date endDate,int channelID,String channelUserName){
+	public int getUserCount(Date startDate, Date endDate,int channelID,String channelUserName, int appID){
 		Session session = this.getSession();
-		Criteria criteria=this.createCriteria(startDate, endDate,channelID,channelUserName, session);
+		Criteria criteria=this.createCriteria(startDate, endDate,channelID,channelUserName, appID, session);
 	//	Transaction t=	session.beginTransaction();
 		Object o=	criteria.setProjection(Projections.rowCount()).uniqueResult();
 	//	t.commit();
@@ -35,18 +35,18 @@ public class UUserDao extends UHibernateTemplate<UUser, Integer> {
 		
 	}
 	
-	public List<UUser> search(Date startDate, Date endDate,int channelID,String channelUserName,int page,int rows) {
+	public List<UUser> search(Date startDate, Date endDate,int channelID,String channelUserName,int appID, int page,int rows) {
 		//String hql = "";
 		Session session = this.getSession();
 
-		Criteria criteria=this.createCriteria(startDate, endDate,channelID,channelUserName, session);
+		Criteria criteria=this.createCriteria(startDate, endDate,channelID,channelUserName, appID, session);
 		criteria.setFirstResult(Math.max(0, (page-1)*rows));
 		criteria.setMaxResults(rows);
 		criteria.addOrder(Order.desc("createTime"));
 		return criteria.list();
 	}
 
-	private Criteria createCriteria(Date startDate, Date endDate,int channelID,String channelUserName,Session session){
+	private Criteria createCriteria(Date startDate, Date endDate,int channelID,String channelUserName, int appID, Session session){
 		
 		Criteria criteria = session.createCriteria(UUser.class);
 		// 查询制定时间之后的记录
@@ -61,6 +61,11 @@ public class UUserDao extends UHibernateTemplate<UUser, Integer> {
 		
 		if(channelID>-1){
 			criteria.add(Restrictions.eq("channelID", channelID));
+		}
+		
+		
+		if(appID>-1){
+			criteria.add(Restrictions.eq("appID", appID));
 		}
 		
 		if(null!=channelUserName &&!"".equals(channelUserName)){

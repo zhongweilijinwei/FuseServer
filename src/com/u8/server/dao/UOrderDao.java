@@ -20,9 +20,9 @@ import org.springframework.stereotype.Repository;
 @Repository("orderDao")
 public class UOrderDao extends UHibernateTemplate<UOrder, Long>{
 
-	public int getOrderCount(Date startDate, Date endDate,int channelID,long orderID, int state){
+	public int getOrderCount(Date startDate, Date endDate,int channelID,long orderID, int state, int appId){
 		Session session = this.getSession();
-		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state, session);
+		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state, appId, session);
 	//	Transaction t=	session.beginTransaction();
 		Object o=	criteria.setProjection(Projections.rowCount()).uniqueResult();
 	//	t.commit();
@@ -34,26 +34,26 @@ public class UOrderDao extends UHibernateTemplate<UOrder, Long>{
 		
 	}
 	
-	public List<UOrder> search(Date startDate, Date endDate,int channelID,long orderID,int state,int page,int rows) {
+	public List<UOrder> search(Date startDate, Date endDate,int channelID,long orderID,int state,int appId, int page,int rows) {
 		//String hql = "";
 		Session session = this.getSession();
 
-		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state,session);
+		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state,appId, session);
 		criteria.setFirstResult(Math.max(0, (page-1)*rows));
 		criteria.setMaxResults(rows);
 		criteria.addOrder(Order.desc("createdTime"));
 		return criteria.list();
 	}
 	
-	public List<UOrder> searchAll(Date startDate, Date endDate,int channelID,long orderID, int state) {
+	public List<UOrder> searchAll(Date startDate, Date endDate,int channelID,long orderID, int state, int appId) {
 		Session session = this.getSession();
 
-		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state, session);
+		Criteria criteria=this.createCriteria(startDate, endDate,channelID,orderID, state, appId, session);
 		criteria.addOrder(Order.desc("createdTime"));
 		return criteria.list();
 	}
 
-	private Criteria createCriteria(Date startDate, Date endDate,int channelID,long orderID, int state, Session session){
+	private Criteria createCriteria(Date startDate, Date endDate,int channelID,long orderID, int state, int appId, Session session){
 		
 		Criteria criteria = session.createCriteria(UOrder.class);
 		// 查询指定时间之后的记录
@@ -78,6 +78,11 @@ public class UOrderDao extends UHibernateTemplate<UOrder, Long>{
 		if(state>-1){
 			
 			criteria.add(Restrictions.eq("state", state));
+		}
+		
+		if(state>-1){
+			
+			criteria.add(Restrictions.eq("appID", appId));
 		}
 		//if(masterID>-1){
 		//	criteria.add(Restrictions.le("createTime", endDate));
