@@ -1,6 +1,7 @@
 package com.u8.server.web;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -15,8 +16,10 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.u8.server.common.UActionSupport;
 import com.u8.server.data.UGameChannel;
 import com.u8.server.data.UInvokeLog;
+import com.u8.server.data.ULaunchLog;
 import com.u8.server.service.UGameChannelManager;
 import com.u8.server.service.UInvokeLogManager;
+import com.u8.server.service.ULaunchLogManager;
 
 /**
  * 接口api
@@ -31,6 +34,8 @@ ModelDriven<UGameChannel> {
 	private UGameChannelManager gameChannelManager;
 	@Autowired
 	private UInvokeLogManager invokeLogManager;
+	@Autowired
+	private ULaunchLogManager launchLogManager;
 	private UGameChannel gameChannel;
 	
 	private int gameId;
@@ -74,26 +79,35 @@ ModelDriven<UGameChannel> {
 			String sdkver=this.request.getParameter("sdkver");
 			String model=this.request.getParameter("model");
 			String plugins=this.request.getParameter("plugins");
-			String name=this.request.getParameter("name");
-			String type=this.request.getParameter("type");
+//			String name=this.request.getParameter("name");
+//			String type=this.request.getParameter("type");
 			String version=this.request.getParameter("version");
+			String netype = this.request.getParameter("netype");
+			String isp = this.request.getParameter("isp");
+			String dpi = this.request.getParameter("dpi");
 			
-			UInvokeLog log=new UInvokeLog();
+//			UInvokeLog log=new UInvokeLog();
+			ULaunchLog log = new ULaunchLog();
 			
 			log.setIccid(iccid);
 			log.setImei(imei);
 			log.setImsi(imsi);
 			log.setIp(request.getRemoteAddr());
 			log.setModel(model);
-			log.setName(name);
 			log.setPlugins(plugins);
 			log.setSdkver(sdkver);
-			log.setType(type);
 			log.setUappid(uappid);
 			log.setUappkey(uappkey);
 			log.setUchannel(uchannel);
 			log.setVersion(version);
-			invokeLogManager.saveLog(log);
+			log.setNetype(netype);
+			log.setIsp(isp);
+			log.setDpi(dpi);
+			//TODO 地理位置的实现需要调研
+			log.setPosition("");
+			log.setLaunchtime(new Date());
+//			invokeLogManager.saveLog(log);
+			launchLogManager.saveLog(log);
 			
 		}catch(Exception e){
 			
