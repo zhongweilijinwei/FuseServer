@@ -32,8 +32,8 @@ public class GameChannelApiAction  extends UActionSupport implements
 ModelDriven<UGameChannel> {
 	@Autowired
 	private UGameChannelManager gameChannelManager;
-	@Autowired
-	private UInvokeLogManager invokeLogManager;
+//	@Autowired
+//	private UInvokeLogManager invokeLogManager;
 	@Autowired
 	private ULaunchLogManager launchLogManager;
 	private UGameChannel gameChannel;

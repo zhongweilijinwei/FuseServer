@@ -28,17 +28,20 @@ DROP TABLE IF EXISTS `ugamerole`;
 CREATE TABLE `ugamerole`(
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL COMMENT 'U8内部userid',
-  `roleID` int(11) COMMENT '游戏内角色ID',
+  `appID` int(11) NOT NULL COMMENT '应用id',
+  `channelID` int(11) NOT NULL COMMENT '渠道id',
+  `roleID` varchar(32) COMMENT '游戏内角色ID',
   `roleName` varchar(32) COMMENT '游戏内角色名称',
-  `roleLevel` tinyint(2) COMMENT '游戏内角色等级',
-  `serverID` int(11) COMMENT '游戏服ID',
-  `serverName` int(11) COMMENT '游戏服名称',
+  `roleLevel` int(11) COMMENT '游戏内角色等级',
+  `serverID` varchar(32) COMMENT '游戏服ID',
+  `serverName` varchar(32) COMMENT '游戏服名称',
   `moneyNum` int(11) COMMENT '角色游戏币数量。游戏内有多种游戏币，则返回只能用人民币充值换取的那种游戏币；若有多种游戏币都能用人民币充值换取，则选价值最小的那种，同时把其它种类游戏币按照游戏内换算比例折算成价值最小游戏币，并返回总数。',
-  `onlineLength` int(11) COMMENT '角色总在线时长',
+  `onlineLength` bigint COMMENT '角色总在线时长(秒)',
   `createTime` datetime NOT NULL COMMENT '记录时间',
   PRIMARY KEY(`id`),
+  INDEX `ctime`(`createTime`),
   INDEX `user`(`userID`),
-  INDEX `role`(`roleName`),
-  INDEX `server`(`serverName`),
-  UNIQUE INDEX `ui`(`userID`,`roleID`,`serverID`)
+  INDEX `appid`(`appID`),
+  INDEX `channel`(`channelID`),
+  INDEX `rolelv`(`roleLevel`)
 )ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;

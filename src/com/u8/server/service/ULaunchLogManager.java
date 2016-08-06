@@ -15,6 +15,6 @@ public class ULaunchLogManager {
 		return uLaunchLogDao.findByImei(imei);
 	}
 	public void saveLog(ULaunchLog log){
-		uLaunchLogDao.saveInvokeLog(log);
+		uLaunchLogDao.saveLaunchLog(log);
 	}
 }

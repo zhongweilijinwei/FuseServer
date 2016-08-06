@@ -11,8 +11,14 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
 	</context-param>
+	
+	<context-param>  
+            <param-name>charset</param-name>  
+            <param-value>UTF-8</param-value>  
+    </context-param>  
 
 	<!-- Filter 定义 -->
+	.
 	<!-- Character Encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -104,6 +110,10 @@
 		<filter-name>struts-prepare</filter-name>
 		<url-pattern>/user/*</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>struts-prepare</filter-name>
+		<url-pattern>/role/*</url-pattern>
+	</filter-mapping>
 
     <filter-mapping>
         <filter-name>struts2Filter</filter-name>
@@ -119,6 +129,10 @@
 <filter-mapping>
 		<filter-name>struts2Filter</filter-name>
 		<url-pattern>/uapi/*</url-pattern>
+	</filter-mapping>
+<filter-mapping>
+		<filter-name>struts2Filter</filter-name>
+		<url-pattern>/role/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>struts2Filter</filter-name>

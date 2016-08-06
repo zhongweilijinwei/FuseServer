@@ -23,7 +23,7 @@ public class ULaunchLogDao extends UHibernateTemplate<ULaunchLog,Integer>{
 		return null;
 	}
 	
-	public void saveInvokeLog(ULaunchLog log){
+	public void saveLaunchLog(ULaunchLog log){
 		super.save(log);
 	}
 }

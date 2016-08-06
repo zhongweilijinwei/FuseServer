@@ -158,7 +158,7 @@ public class UserAction extends UActionSupport{
             renderState(StateCode.CODE_AUTH_FAILED, null);
         }
     }
-
+    
     private void renderState(int state, JSONObject data){
         try{
 

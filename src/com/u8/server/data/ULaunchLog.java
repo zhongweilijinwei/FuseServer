@@ -10,10 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ULaunchLog")
+@Table(name = "ulaunchlog")
 public class ULaunchLog implements Serializable{
 
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return id;
 	}
@@ -128,8 +129,7 @@ public class ULaunchLog implements Serializable{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Integer id;
 	private String uchannel;
 	private String uappkey;
