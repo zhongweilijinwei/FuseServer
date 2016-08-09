@@ -55,12 +55,13 @@ public class SendAgent {
         response.put("state", StateCode.CODE_SUCCESS);
         response.put("data", data);
         String sign = RSAUtils.sign(data.toString(),game.getAppRSAPriKey(), "UTF-8");
-        try {
-			response.put("sign", URLEncoder.encode(sign, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        response.put("sign", sign);
+//        try {
+//			response.put("sign", URLEncoder.encode(sign, "UTF-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "text/html");
 
