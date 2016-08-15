@@ -12,6 +12,8 @@ import com.u8.server.utils.EncryptUtils;
 import com.u8.server.utils.JsonUtils;
 import com.u8.server.utils.TimeFormater;
 import net.sf.json.JSONObject;
+
+import org.apache.http.util.TextUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,10 @@ public class QiShiPayCallbackAction extends UActionSupport{
     public void payCallback(){
 
         try{
+        	if(TextUtils.isEmpty(paygameorder)){
+        		renderState(null, 2);
+        		return;
+        	}
 
             long orderID = Long.parseLong(paygameorder);
             UOrder uorder = orderManager.getOrder(orderID);
@@ -114,9 +120,9 @@ public class QiShiPayCallbackAction extends UActionSupport{
 
     	 PrintWriter out = this.response.getWriter();
         if(resultCode==1){
-        	 out.write(1);
+        	 out.write("1");
         }else{
-        	 out.write(2);
+        	 out.write("2");
         }
        
         out.flush();
