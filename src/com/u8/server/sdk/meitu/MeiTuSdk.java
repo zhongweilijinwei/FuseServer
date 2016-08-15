@@ -16,30 +16,30 @@ import com.u8.server.utils.EncryptUtils;
 
 public class MeiTuSdk implements ISDKScript {
 
-//	jsonObject.put("sessionid", sessionid);
-//	jsonObject.put("uid", uid);
-//	jsonObject.put("name", name);
+	//	jsonObject.put("sessionid", sessionid);
+	//	jsonObject.put("uid", uid);
+	//	jsonObject.put("name", name);
 	@Override
 	public void verify(final UChannel channel, String extension, final ISDKVerifyListener callback) {
 
 		JSONObject json = JSONObject.fromObject(extension);
-		
-		 String sessionid = json.getString("sessionid");
-		 final String uid = json.getString("uid");
-		 String name = json.getString("name");
+
+		String sessionid = json.getString("sessionid");
+		final String uid = json.getString("uid");
+		String name = json.getString("name");
 		String Appid=channel.getCpAppID();
 		String Appkey=channel.getCpAppKey();//做login_key
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(Appid).append(uid).append(sessionid).append(Appkey);
 		String sign = EncryptUtils.md5(sb.toString());
 
-		
-		 Map<String,String> params = new HashMap<String, String>();
-         params.put("appid", Appid);
-         params.put("uid", uid);
-         params.put("state", sessionid);
-		 params.put("flag", sign);
+
+		Map<String,String> params = new HashMap<String, String>();
+		params.put("appid", Appid);
+		params.put("uid", uid);
+		params.put("state", sessionid);
+		params.put("flag", sign);
 
 		String url = channel.getChannelAuthUrl();
 
@@ -50,9 +50,9 @@ public class MeiTuSdk implements ISDKScript {
 				try {
 					if (!TextUtils.isEmpty(result)) {
 						JSONObject jr = JSONObject.fromObject(result);
-						
+
 						int code = jr.getInt("ret");
-                        //成功
+						//成功
 						if(code==100){
 							callback.onSuccess(new SDKVerifyResult(true, uid,"", ""));
 							return;
@@ -60,7 +60,7 @@ public class MeiTuSdk implements ISDKScript {
 						}else{
 							callback.onSuccess(new SDKVerifyResult(false, "", "", ""));
 							return;
-							
+
 						}
 					}
 
