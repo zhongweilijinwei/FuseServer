@@ -52,11 +52,11 @@
      <input id="states" type="text" class="easyui-combobox" name="states" style="width:90px" maxlength="255" required="true" data-options="
      		valueField:'state',
     		textField:'text',
-    		data:[{state:-1,text:'全部'},{state:1,text:'未支付'},{state:2,text:'已支付'},{state:3,text:'已完成',selected:true},{state:4, text:'支付失败'}]"
+    		data:[{state:-1,text:'全部'},{state:1,text:'未支付'},{state:2,text:'已支付'},{state:3,text:'已完成',selected:true},{state:4, text:'支付失败'},{state:5, text:'支付中'},{state:6, text:'已取消'}]"
     		/>
    &nbsp;选择游戏:
      <input id="games" type="text" class="easyui-combobox" name="games" style="width:90px" maxlength="255" required="true"/>
-  &nbsp;订单号:
+   &nbsp;订单号:
    <input id="orderID" type="text" class="easyui-textbox" name="orderID" style="width:180px" maxlength="255" required="true"/>
      <a class="easyui-linkbutton" plain="true"
        icon="icon-search" onclick="javascript:doSearch();">搜索</a>

@@ -63,7 +63,7 @@ public class UOrderManager {
         order.setUserID(user.getId());
         order.setUsername(user.getName());
         order.setExtension(extension);
-        order.setState(PayState.STATE_PAYING);
+        order.setState(PayState.STATE_PRE_PAY);
         order.setChannelOrderID("");
         order.setRoleID(roleID);
         order.setRoleName(roleName);
@@ -90,7 +90,7 @@ public class UOrderManager {
         order.setCreatedTime(new Date());
 
         orderDao.getSession().saveOrUpdate(order);
-
+ 
         return order;
     }
 
