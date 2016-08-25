@@ -18,4 +18,5 @@ public class StateCode {
     public static final int CODE_SIGN_ERROR = 12;
     public static final int CODE_SUBMIT_PARAMS_ERROR = 13;
     public static final int CODE_SUBMIT_PARAMS_FAILED = 14;
+    public static final int CODE_PARAM_ERROR = 15;
 }

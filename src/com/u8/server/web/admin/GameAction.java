@@ -107,7 +107,7 @@ public class GameAction extends UActionSupport implements ModelDriven<UGame>{
 
             JSONArray gameArray = new JSONArray();
             JSONObject allItem = new JSONObject();
-			 allItem.put("appID","-1");
+			 allItem.put("appID","");
 			 allItem.put("name", "全部");
 			 gameArray.add(allItem);
 		   if(null != games){

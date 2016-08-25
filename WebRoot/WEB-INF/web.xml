@@ -97,6 +97,13 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>struts-prepare</filter-name>
+        <url-pattern>/order/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 
 	<filter-mapping>
 		<filter-name>struts-prepare</filter-name>
@@ -118,6 +125,13 @@
     <filter-mapping>
         <filter-name>struts2Filter</filter-name>
         <url-pattern>/pay/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>struts2Filter</filter-name>
+        <url-pattern>/order/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -156,7 +170,7 @@
 
     <!-- session超时定义,单位为分钟 -->
     <session-config>
-        <session-timeout>20</session-timeout>
+        <session-timeout>40</session-timeout>
     </session-config>
 
 

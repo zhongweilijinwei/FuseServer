@@ -70,8 +70,11 @@ public class UOrder {
         json.put("serverName", serverName);
         String stateStr = "未支付";
         switch (state) {
+		case PayState.STATE_PRE_PAY:
+			stateStr = "未支付 ";
+			break;
 		case PayState.STATE_PAYING:
-			stateStr = "未支付";
+			stateStr = "支付中";
 			break;
 		case PayState.STATE_SUC:
 			stateStr = "已支付";
@@ -82,7 +85,9 @@ public class UOrder {
 		case PayState.STATE_FAILED:
 			stateStr = "支付失败";
 			break;
-
+		case PayState.STATE_CANCEL:
+			stateStr = "已取消";
+			break;
 		default:
 			stateStr = "未支付";
 			break;

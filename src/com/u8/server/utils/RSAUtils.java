@@ -82,7 +82,7 @@ public class RSAUtils {
             signature.initVerify(pubKey);
             signature.update( content.getBytes(input_charset));
 
-            return signature.verify( Base64.decode2Bytes(sign) );
+            return signature.verify(Base64.decode2Bytes(sign));
 
         }
         catch (Exception e)

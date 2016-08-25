@@ -80,7 +80,7 @@ public class UOrderDao extends UHibernateTemplate<UOrder, Long>{
 			criteria.add(Restrictions.eq("state", state));
 		}
 		
-		if(state>-1){
+		if(appId>-1){
 			
 			criteria.add(Restrictions.eq("appID", appId));
 		}
