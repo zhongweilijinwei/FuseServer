@@ -30,8 +30,9 @@ import java.util.Map;
 @Namespace("/user")
 public class UserPayAction extends UActionSupport{
 
-  private static final String GETORDER_URL = "http://14.152.59.179:8080/APYXServer/pay/getOrderID";
-//  private static final String GETORDER_URL = "http://192.168.16.3:8080/YTServer/pay/getOrderID";
+//	private static final String GETORDER_URL = "http://192.168.16.3:8080/YTServer/pay/getOrderID";
+//	private static final String GETORDER_URL = "http://14.152.59.179:8082/APYXServer/pay/getOrderID";//线上backup版本
+  private static final String GETORDER_URL = "http://14.152.59.179:8080/APYXServer/pay/getOrderID";//线上版本接口
 
 //    private int roleID;
 //    private String userID;
