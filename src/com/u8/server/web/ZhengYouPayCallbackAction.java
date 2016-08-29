@@ -26,25 +26,22 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 /**
- * haixinSDK充值回调接口
+ * 征游SDK充值回调接口
  * Created by ant on 2015/2/28.
  */
 
 @Controller
-@Namespace("/pay/haixin")
-public class HaiXinPayCallbackAction extends UActionSupport{
-//	http://14.23.156.2:8089/YTServer/pay/haixin/payCallback
-    private String outTradeNo;
-    private String cooperatorTradeNo;
-    private String applicationName;
-    private String packageName;
-    private String productName;
-    private String productCount;
-    private String payFee;
-    private String signType;
-    private String sign;
-    private String tradeStatus;
-    
+@Namespace("/pay/zhengyou")
+public class ZhengYouPayCallbackAction extends UActionSupport{
+//	http://14.23.156.2:8089/YTServer/pay/zhengyou/payCallback
+    private String notifyid;//
+    private String orderno;//sdk 订单id
+    private String agentorderno;//游戏订单ID
+    private String amount;//商品金额
+    private String subject;//商品名称
+    private String playcode;//会员账号
+    private String sign;//签名
+   
     @Autowired
     private UOrderManager orderManager;
 
@@ -53,7 +50,7 @@ public class HaiXinPayCallbackAction extends UActionSupport{
 
         try{
 
-            long orderID = Long.parseLong(cooperatorTradeNo);
+            long orderID = Long.parseLong(agentorderno);
             UOrder uorder = orderManager.getOrder(orderID);
 
             Log.d("The uorder==="+uorder.toString());
@@ -76,16 +73,14 @@ public class HaiXinPayCallbackAction extends UActionSupport{
 
             
                 StringBuilder strSign = new StringBuilder();
-         strSign.append("applicationName").append("=").append(applicationName).append("&")
-                .append("cooperatorTradeNo").append("=").append(cooperatorTradeNo).append("&")
-                .append("outTradeNo").append("=").append(outTradeNo).append("&")
-                .append("packageName").append("=").append(packageName).append("&")
-                .append("payFee").append("=").append(payFee).append("&")
-                .append("productCount").append("=").append(productCount).append("&")
-                .append("productName").append("=").append(productName).append("&")
-                .append("tradeStatus").append("=").append(tradeStatus).append(uorder.getChannel().getCpAppSecret());//海信获得的MD5串
-                
+        
+                strSign.append(notifyid)
+                .append(uorder.getChannel().getCpAppKey()) //自己生成的 下单时传入的sign
+                .append(uorder.getChannel().getCpAppSecret());//sdk提供的加密密匙
+       
          
+         
+            
                 String newsign=EncryptUtils.md5(strSign.toString());
                 Log.e("The newsign1 is "+newsign);
                 //签名验证
@@ -95,10 +90,10 @@ public class HaiXinPayCallbackAction extends UActionSupport{
                 }
             
             if(resultCode == 1){
-                    uorder.setRealMoney((int)(Double.parseDouble(payFee) * 100));
+                    uorder.setRealMoney((int)(Double.parseDouble(amount) * 100));
                     uorder.setSdkOrderTime(String.valueOf(new Date().getTime()));
                     uorder.setCompleteTime(new Date());
-                    uorder.setChannelOrderID(cooperatorTradeNo);
+                    uorder.setChannelOrderID(agentorderno);
                     uorder.setState(PayState.STATE_SUC);
                     
                     orderManager.saveOrder(uorder);
@@ -106,7 +101,7 @@ public class HaiXinPayCallbackAction extends UActionSupport{
                     SendAgent.sendCallbackToServer(this.orderManager, uorder);
 
             }else{
-                uorder.setChannelOrderID(cooperatorTradeNo);
+                uorder.setChannelOrderID(agentorderno);
                 uorder.setState(PayState.STATE_FAILED);
                 orderManager.saveOrder(uorder);
             }
@@ -120,83 +115,69 @@ public class HaiXinPayCallbackAction extends UActionSupport{
     }
     
     private void renderState(UChannel channel, int resultCode) throws IOException {
-
     	 PrintWriter out = this.response.getWriter();
         if(resultCode==1){
         	 out.write("success");
         }else{
         	 out.write("fail");
         }
+
+       
        
         out.flush();
 
     }
 
+
+	public String getNotifyid() {
+		return notifyid;
+	}
+
+	public void setNotifyid(String notifyid) {
+		this.notifyid = notifyid;
+	}
+
+	public String getOrderno() {
+		return orderno;
+	}
+
+	public void setOrderno(String orderno) {
+		this.orderno = orderno;
+	}
+
+	public String getAgentorderno() {
+		return agentorderno;
+	}
+
+	public void setAgentorderno(String agentorderno) {
+		this.agentorderno = agentorderno;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getPlaycode() {
+		return playcode;
+	}
+
+	public void setPlaycode(String playcode) {
+		this.playcode = playcode;
+	}
+
 	
-
-	public String getOutTradeNo() {
-		return outTradeNo;
-	}
-
-	public void setOutTradeNo(String outTradeNo) {
-		this.outTradeNo = outTradeNo;
-	}
-
-	public String getCooperatorTradeNo() {
-		return cooperatorTradeNo;
-	}
-
-	public void setCooperatorTradeNo(String cooperatorTradeNo) {
-		this.cooperatorTradeNo = cooperatorTradeNo;
-	}
-
-	public String getApplicationName() {
-		return applicationName;
-	}
-
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
-	}
-
-	public String getPackageName() {
-		return packageName;
-	}
-
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public String getProductCount() {
-		return productCount;
-	}
-
-	public void setProductCount(String productCount) {
-		this.productCount = productCount;
-	}
-
-	public String getPayFee() {
-		return payFee;
-	}
-
-	public void setPayFee(String payFee) {
-		this.payFee = payFee;
-	}
-
-	public String getSignType() {
-		return signType;
-	}
-
-	public void setSignType(String signType) {
-		this.signType = signType;
-	}
 
 	public String getSign() {
 		return sign;
@@ -204,14 +185,6 @@ public class HaiXinPayCallbackAction extends UActionSupport{
 
 	public void setSign(String sign) {
 		this.sign = sign;
-	}
-
-	public String getTradeStatus() {
-		return tradeStatus;
-	}
-
-	public void setTradeStatus(String tradeStatus) {
-		this.tradeStatus = tradeStatus;
 	}
 
 	public UOrderManager getOrderManager() {
