@@ -34,9 +34,9 @@ import java.util.Map;
 @Namespace("/user")
 public class UserLoginAction extends UActionSupport{
 
-    private static final String AUTH_URL = "http://14.23.156.2:8089/YTServer/user/verifyAccount";
-//  private static final String AUTH_URL = "http://14.152.59.179:8080/APYXServer/user/verifyAccount";
-//  private static final String AUTH_URL = "http://192.168.16.3:8080/YTServer/user/verifyAccount";
+//    private static final String AUTH_URL = "http://14.23.156.2:8089/YTServer/user/verifyAccount";
+  private static final String AUTH_URL = "http://14.152.59.179:8080/APYXServer/user/verifyAccount";//线上版本
+//	private static final String AUTH_URL = "http://14.152.59.179:8082/APYXServer/user/verifyAccount";//线上backup版本
 
 
     private int userID;
